@@ -2,6 +2,7 @@ from flask import Flask,request
 import requests 
 from requests.auth import HTTPBasicAuth
 import datetime,hashlib,base64
+from models import Callback
 
 app= Flask(__name__)
 consumer_key='bj8hSqf4w8EE1UgK2R1UUowK8RHqhkyA'
@@ -106,7 +107,7 @@ def stkpush():
     "PartyA": phonenumber,
     "PartyB": shortcodes,
     "PhoneNumber": phonenumber,
-    "CallBackURL": "https://mydomain.com/path",
+    "CallBackURL": "https://ca95-41-89-227-171.ngrok-free.app/callbackurl",
     "AccountReference": "CompanyXLTD",
     "TransactionDesc": "Payment of X" 
   }
@@ -123,9 +124,40 @@ def stkpush():
     return response_data.json()
 
 
+# @app.route('/callbackurl', methods=['POST'])
+# def callback():
+
+#         request_data = request.get_json()
+
+#         return request_data({})
+
 @app.route('/callbackurl', methods=['POST'])
 def callback():
+    request_data = request.get_json()
 
-        request_data = request.get_json()
+    # Parse the callback data and extract the relevant information
+    # transaction_status = request_data['ResultCode']
+    transaction=request_data['Body']['stkCallback']['ResultCode']
+    # amount = request_data['Amount']
+    # payer_phone_number = request_data['PhoneNumber']
 
-        return request_data({})
+    # # Process the callback data and take the appropriate actions
+    # if transaction_status == 0:
+    #     # The transaction was successful
+    #     print('Transaction was successful')
+    #     # Update your database
+    #     # Send a notification to the payer
+    # else:
+        # The transaction failed
+        # print('Transaction failed')
+        # Log the error
+        # print(transaction_status,amount,payer_phone_number )
+        # things=[]
+        # things.append(transaction_status,amount,payer_phone_number)
+        # print(things)
+    # result=request_data.tojson()
+    print(request_data)
+    print(transaction)
+    # print(result)
+
+    return request_data
